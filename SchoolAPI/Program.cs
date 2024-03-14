@@ -1,7 +1,7 @@
-
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Configuration;
+using SchoolAPI.Interfaces;
 using SchoolAPI.Models;
+using SchoolAPI.Services;
 
 namespace SchoolAPI
 {
@@ -20,20 +20,11 @@ namespace SchoolAPI
             builder.Services.AddSwaggerGen();
             builder.Services.Configure<SchoolDatabaseSettings>(builder.Configuration.GetSection("SchoolDatabaseSettings"));
             builder.Services.AddSingleton<IMongoClient>(_ => {
-                /*
-                 
-                 * This allows for more precise control and customization as we set up our database connection
-                 * var settings = new MongoClientSettings()
-                 * {
-                 *      Scheme = ConnectionStringScheme.MongoDBPlusSrv,
-                 *      Server = new MongoServerAddress("localhost")
-                 * };
-                 * 
-                 */
-
                 var connectionString = builder.Configuration.GetSection("SchoolDatabaseSettings:ConnectionString").Value;
                 return new MongoClient(connectionString);
             });
+            builder.Services.AddSingleton<IStudentService, StudentService>();
+            builder.Services.AddSingleton<ICourseService, CourseService>();
 
             var app = builder.Build();
 
