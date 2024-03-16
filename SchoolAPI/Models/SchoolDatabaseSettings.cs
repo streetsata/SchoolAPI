@@ -1,6 +1,8 @@
-﻿    namespace SchoolAPI.Models
+﻿using SchoolAPI.Interfaces;
+
+namespace SchoolAPI.Models
 {
-    public class SchoolDatabaseSettings
+    public class SchoolDatabaseSettings : ISchoolDatabaseSettings
     {
         public string StudentsCollectionName { get; set; } = null!;
         public string CoursesCollectionName { get; set; } = null!;
